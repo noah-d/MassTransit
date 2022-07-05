@@ -34,9 +34,11 @@ namespace MassTransit.EventHubIntegration.Checkpoints
             };
 
             _channel = Channel.CreateBounded<IPendingConfirmation>(channelOptions);
-            _checkpointTask = Task.Run(WaitForBatch);
+
             _cancellationTokenSource = new CancellationTokenSource();
             _shutdownTokenSource = new CancellationTokenSource();
+
+            _checkpointTask = Task.Run(WaitForBatch);
         }
 
         public async Task Pending(IPendingConfirmation confirmation)
